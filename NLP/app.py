@@ -1,3 +1,4 @@
+import os
 import nltk
 import spacy
 from flask import Flask, render_template, request
@@ -14,6 +15,12 @@ nltk.download('wordnet', quiet=True)
 # If you haven't installed it yet, run: python -m spacy download en_core_web_sm
 nlp_spacy = spacy.load("en_core_web_sm")
 
+# Get the directory of the current script
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app = Flask(__name__, 
+            template_folder=os.path.join(basedir, 'templates'),
+            static_folder=os.path.join(basedir, 'static'))
 app = Flask(__name__)
 
 # Initialize tools
@@ -88,4 +95,5 @@ def process():
     return render_template("index.html", result=result, input_text=input_text, selected_task=task)
 
 if __name__ == "__main__":
+
     app.run(debug=True)
